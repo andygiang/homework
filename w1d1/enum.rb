@@ -12,6 +12,27 @@ def doubler(array)
   array.map {|int|int*2}
 end
 class Array
+  def bubble_sort!(&prc)
+    return self if self.length <=1
+    prc ||= Proc.new {|x,y| x<=> y}
+    sorted = false
+    until sorted == true
+      sorted = true
+      for i in 0...self.length-1
+        order = prc.call(self[i],self[i+1])
+        if order == 1
+          sorted = false
+          self[i],self[i+1] = self[i+1],self[i]
+        end
+      end
+    end
+    return self
+  end
+  def bubble_sort(&prc)
+    temp = self.dup
+    temp.bubble_sort!(&prc)
+    temp
+  end
   def my_each(&block)
     for i in 0...self.length
       yield(self[i])
